@@ -123,25 +123,10 @@ const RegistrationForm = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        {/* Logo and Title */}
-        <div className="text-center mb-8">
-          <Image
-            src="/logo.png"
-            alt="Huduma Center Logo"
-            width={120}
-            height={120}
-            className="mx-auto mb-4"
-          />
-          <h1 className="text-3xl font-bold text-primary-navy">
-            Student Registration
-          </h1>
-        </div>
-
+      <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          {/* Header with progress bar */}
+          {/* Progress bar */}
           <div className="bg-primary-navy rounded-t-2xl">
-            {/* Progress bar */}
             <div className="p-6">
               <div className="flex space-x-2">
                 {steps.map((_, index) => (
