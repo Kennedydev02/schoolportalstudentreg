@@ -6,6 +6,8 @@ import { useTheme } from 'next-themes';
 import { Check, Sun, Moon } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
 import { format } from 'date-fns';
+import Image from 'next/image';
+import { validateStep } from '@/lib/validation';
 
 // Import your step components
 import PersonalInfo from './steps/PersonalInfo';
@@ -66,6 +68,7 @@ const RegistrationForm = () => {
   const [formData, setFormData] = useState<FormData>(INITIAL_DATA);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [errors, setErrors] = useState<Record<string, string>>({});
   
   useEffect(() => {
     setMounted(true);
@@ -73,6 +76,10 @@ const RegistrationForm = () => {
 
   const updateFields = (fields: Partial<FormData>) => {
     setFormData(prev => ({ ...prev, ...fields }));
+    // Clear errors for updated fields
+    const updatedErrors = { ...errors };
+    Object.keys(fields).forEach(key => delete updatedErrors[key]);
+    setErrors(updatedErrors);
   };
 
   const steps = [
@@ -85,9 +92,14 @@ const RegistrationForm = () => {
   ];
 
   const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(c => c + 1);
+    const stepErrors = validateStep(currentStep, formData);
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
+      toast.error('Please fill in all required fields correctly');
+      return;
     }
+    setCurrentStep(c => c + 1);
+    setErrors({});
   };
 
   const handlePrevious = () => {
@@ -113,6 +125,20 @@ const RegistrationForm = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {/* Logo and Title */}
+        <div className="text-center mb-8">
+          <Image
+            src="/logo.png"
+            alt="Huduma Center Logo"
+            width={120}
+            height={120}
+            className="mx-auto mb-4"
+          />
+          <h1 className="text-3xl font-bold text-primary-navy">
+            Student Registration
+          </h1>
+        </div>
+
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Header with progress bar */}
           <div className="bg-primary-navy rounded-t-2xl">
