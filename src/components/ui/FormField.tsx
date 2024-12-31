@@ -42,17 +42,31 @@ const FormField: React.FC<FormFieldProps> = ({
     shadow-sm hover:shadow-md
     ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`;
 
-  const commonProps = {
+  // Separate props for input and select with correct aria-invalid type
+  const inputProps = {
     id,
     value,
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => onChange(e.target.value),
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
     onBlur,
     className: inputClasses,
     required,
-    "aria-invalid": error ? "true" : "false",
+    "aria-invalid": error ? true : false,
+    "aria-describedby": error ? `${id}-error` : undefined,
+    placeholder,
+    type
+  } as const;
+
+  const selectProps = {
+    id,
+    value,
+    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value),
+    onBlur,
+    className: inputClasses,
+    required,
+    "aria-invalid": error ? true : false,
     "aria-describedby": error ? `${id}-error` : undefined,
     placeholder
-  };
+  } as const;
 
   return (
     <div className={`space-y-2 ${fullWidth ? 'md:col-span-2' : ''}`}>
@@ -63,7 +77,7 @@ const FormField: React.FC<FormFieldProps> = ({
 
       {type === 'select' ? (
         <div className="relative">
-          <select {...commonProps}>
+          <select {...selectProps}>
             <option value="">{placeholder}</option>
             {options.map(({ value: optionValue, label: optionLabel }) => (
               <option key={optionValue} value={optionValue}>
@@ -79,7 +93,7 @@ const FormField: React.FC<FormFieldProps> = ({
         </div>
       ) : (
         <div className="relative">
-          <input {...commonProps} type={type} />
+          <input {...inputProps} />
           <div className="absolute inset-0 w-full h-full rounded-xl pointer-events-none
             shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" 
             aria-hidden="true"

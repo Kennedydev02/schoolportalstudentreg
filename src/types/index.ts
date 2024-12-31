@@ -9,6 +9,7 @@ export interface FormData {
   emergencyName: string;
   emergencyPhone: string;
   relationship: string;
+  emergencyNotes?: string;
   program: string;
   startDate: string;
   needsAccommodation: boolean;
@@ -16,13 +17,9 @@ export interface FormData {
   needsAirportPickup: boolean;
   arrivalDate: string;
   arrivalTime: string;
-  emergencyNotes?: string;
 }
 
 export interface StepProps {
   data: FormData;
   updateFields: (fields: Partial<FormData>) => void;
-  errors?: Record<string, string>;
-  onBlur?: (field: string, value: string) => void;
-  showErrors?: boolean;
 } 
