@@ -95,7 +95,14 @@ const RegistrationForm = () => {
     const stepErrors = validateStep(currentStep, formData);
     if (Object.keys(stepErrors).length > 0) {
       setErrors(stepErrors);
-      toast.error('Please fill in all required fields correctly');
+      toast.error('Please fill all required fields correctly', {
+        style: {
+          background: '#2B3B6B',
+          color: '#fff',
+          borderRadius: '10px',
+        },
+        duration: 3000,
+      });
       return;
     }
     setCurrentStep(c => c + 1);
