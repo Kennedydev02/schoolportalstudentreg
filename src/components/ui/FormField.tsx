@@ -31,11 +31,16 @@ const FormField: React.FC<FormFieldProps> = ({
   fullWidth,
   children
 }) => {
-  const inputClasses = `mt-1 block ${fullWidth ? 'w-full' : ''} rounded-md border-gray-300 shadow-sm 
-    focus:border-primary-green focus:ring-primary-green
-    ${error ? 'border-red-500' : 'border-gray-300'}`;
-
-  const ariaInvalid: boolean | "true" | "false" = error ? true : false;
+  const inputClasses = `w-full px-4 py-3 rounded-xl
+    bg-gray-50 dark:bg-white/5
+    border-2 border-gray-200 dark:border-white/10
+    text-gray-900 dark:text-white text-base
+    placeholder-gray-500 dark:placeholder-gray-400
+    focus:border-primary-green focus:ring-4 focus:ring-primary-green/20
+    dark:focus:border-primary-green dark:focus:ring-primary-green/20
+    focus:outline-none transition-all duration-300
+    shadow-sm hover:shadow-md
+    ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`;
 
   const commonProps = {
     id,
@@ -44,44 +49,46 @@ const FormField: React.FC<FormFieldProps> = ({
     onBlur,
     className: inputClasses,
     required,
-    "aria-invalid": ariaInvalid,
+    "aria-invalid": error ? "true" : "false",
     "aria-describedby": error ? `${id}-error` : undefined,
     placeholder
   };
 
-  const selectProps = {
-    ...commonProps,
-    "aria-invalid": ariaInvalid
-  };
-
-  const inputProps = {
-    ...commonProps,
-    type
-  };
-
   return (
-    <div className="space-y-1">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+    <div className={`space-y-2 ${fullWidth ? 'md:col-span-2' : ''}`}>
+      <label htmlFor={id} className="block text-[15px] font-medium text-primary-navy dark:text-white">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
 
       {type === 'select' ? (
-        <select {...selectProps}>
-          <option value="">{placeholder}</option>
-          {options.map(({ value: optionValue, label: optionLabel }) => (
-            <option key={optionValue} value={optionValue}>
-              {optionLabel}
-            </option>
-          ))}
-          {children}
-        </select>
+        <div className="relative">
+          <select {...commonProps}>
+            <option value="">{placeholder}</option>
+            {options.map(({ value: optionValue, label: optionLabel }) => (
+              <option key={optionValue} value={optionValue}>
+                {optionLabel}
+              </option>
+            ))}
+            {children}
+          </select>
+          <div className="absolute inset-0 w-full h-full rounded-xl pointer-events-none
+            shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" 
+            aria-hidden="true"
+          />
+        </div>
       ) : (
-        <input {...inputProps} />
+        <div className="relative">
+          <input {...commonProps} type={type} />
+          <div className="absolute inset-0 w-full h-full rounded-xl pointer-events-none
+            shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" 
+            aria-hidden="true"
+          />
+        </div>
       )}
 
       {error && (
-        <p className="text-red-500 text-sm mt-1" id={`${id}-error`}>
+        <p className="text-red-500 text-sm" id={`${id}-error`}>
           {error}
         </p>
       )}
