@@ -115,9 +115,10 @@ const RegistrationForm = () => {
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Header with progress bar */}
-          <div className="bg-primary-navy p-6 text-white">
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex space-x-2 flex-1">
+          <div className="bg-primary-navy rounded-t-2xl">
+            {/* Progress bar */}
+            <div className="p-6">
+              <div className="flex space-x-2">
                 {steps.map((_, index) => (
                   <div
                     key={index}
@@ -127,18 +128,18 @@ const RegistrationForm = () => {
                   />
                 ))}
               </div>
-            </div>
-            <div className="flex justify-between items-center">
-              {steps.map((_, index) => (
-                <div
-                  key={index}
-                  className={`text-sm font-medium ${
-                    index <= currentStep ? 'text-white' : 'text-gray-400'
-                  }`}
-                >
-                  Step {index + 1}
-                </div>
-              ))}
+              <div className="flex justify-between mt-4">
+                {steps.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`text-base ${
+                      index <= currentStep ? 'text-white' : 'text-gray-400'
+                    }`}
+                  >
+                    Step {index + 1}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
