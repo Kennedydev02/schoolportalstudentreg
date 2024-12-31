@@ -124,6 +124,9 @@ const RegistrationForm = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center text-primary-navy py-6">
+          Student Registration
+        </h1>
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Progress bar */}
           <div className="bg-primary-navy rounded-t-2xl">
