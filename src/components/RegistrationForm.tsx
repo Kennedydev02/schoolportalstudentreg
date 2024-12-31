@@ -95,14 +95,6 @@ const RegistrationForm = () => {
     const stepErrors = validateStep(currentStep, formData);
     if (Object.keys(stepErrors).length > 0) {
       setErrors(stepErrors);
-      toast.error('Please fill all required fields correctly', {
-        style: {
-          background: '#2B3B6B',
-          color: '#fff',
-          borderRadius: '10px',
-        },
-        duration: 3000,
-      });
       return;
     }
     setCurrentStep(c => c + 1);
@@ -188,6 +180,18 @@ const RegistrationForm = () => {
               >
                 {steps[currentStep]}
               </motion.div>
+
+              {/* Error Messages */}
+              {Object.keys(errors).length > 0 && (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+                  <p className="text-red-600 font-medium mb-2">Please fix the following errors:</p>
+                  <ul className="list-disc list-inside text-red-500">
+                    {Object.values(errors).map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               <div className="mt-8 flex justify-between items-center">
                 <div className="text-sm text-gray-600">
