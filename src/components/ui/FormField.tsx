@@ -31,15 +31,14 @@ const FormField: React.FC<FormFieldProps> = ({
   fullWidth,
   children
 }) => {
-  const inputClasses = `w-full px-4 py-3 rounded-xl
-    bg-gray-50 dark:bg-white/5
-    border-2 border-gray-200 dark:border-white/10
-    text-gray-900 dark:text-white text-base
-    placeholder-gray-500 dark:placeholder-gray-400
+  const inputClasses = `w-full px-4 py-3.5 rounded-2xl
+    bg-white
+    border border-gray-200
+    text-gray-900 text-base
+    placeholder-gray-500
     focus:border-primary-green focus:ring-4 focus:ring-primary-green/20
-    dark:focus:border-primary-green dark:focus:ring-primary-green/20
     focus:outline-none transition-all duration-300
-    shadow-sm hover:shadow-md
+    shadow-sm
     ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}`;
 
   // Separate props for input and select with correct aria-invalid type

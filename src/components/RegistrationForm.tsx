@@ -111,93 +111,84 @@ const RegistrationForm = () => {
   }
 
   return (
-    <div className="min-h-screen transition-colors duration-300 relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-[#1B2B5E]/95 dark:via-[#1B2B5E] dark:to-[#1B2B5E]/90">
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{
-          duration: 5000,
-          style: {
-            background: theme === 'dark' ? '#333' : '#fff',
-            color: theme === 'dark' ? '#fff' : '#333',
-          },
-        }}
-      />
-      <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Student Registration
-          </h1>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
-          <div className="bg-gray-100 dark:bg-gray-700 p-4">
-            <div className="flex justify-between items-center">
-              <div className="flex space-x-1 flex-1">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          {/* Header with progress bar */}
+          <div className="bg-primary-navy p-6 text-white">
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex space-x-2 flex-1">
                 {steps.map((_, index) => (
                   <div
                     key={index}
                     className={`h-2 flex-1 rounded-full transition-colors duration-300 ${
-                      index <= currentStep ? 'bg-primary-green' : 'bg-gray-300 dark:bg-gray-600'
+                      index <= currentStep ? 'bg-primary-green' : 'bg-gray-400/30'
                     }`}
                   />
                 ))}
               </div>
-              {mounted && (
-                <button
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
-                  aria-label="Toggle theme"
+            </div>
+            <div className="flex justify-between items-center">
+              {steps.map((_, index) => (
+                <div
+                  key={index}
+                  className={`text-sm font-medium ${
+                    index <= currentStep ? 'text-white' : 'text-gray-400'
+                  }`}
                 >
-                  {theme === 'dark' ? (
-                    <Sun className="w-5 h-5 text-yellow-500" />
-                  ) : (
-                    <Moon className="w-5 h-5 text-gray-700" />
-                  )}
-                </button>
-              )}
+                  Step {index + 1}
+                </div>
+              ))}
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6">
-            <motion.div
-              key={currentStep}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {steps[currentStep]}
-            </motion.div>
+          {/* Form content */}
+          <div className="p-8">
+            <form onSubmit={handleSubmit}>
+              <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {steps[currentStep]}
+              </motion.div>
 
-            <div className="mt-6 flex justify-between">
-              {currentStep > 0 && (
-                <button
-                  type="button"
-                  onClick={handlePrevious}
-                  className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
-                >
-                  Previous
-                </button>
-              )}
-              {currentStep < steps.length - 1 ? (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="ml-auto px-4 py-2 bg-primary-green text-white rounded-md hover:bg-green-600 transition-colors"
-                >
-                  Continue
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  className="ml-auto px-4 py-2 bg-primary-green text-white rounded-md hover:bg-green-600 transition-colors"
-                >
-                  Submit
-                </button>
-              )}
-            </div>
-          </form>
+              <div className="mt-8 flex justify-between items-center">
+                <div className="text-sm text-gray-600">
+                  Step {currentStep + 1} of {steps.length}
+                </div>
+                <div className="flex space-x-4">
+                  {currentStep > 0 && (
+                    <button
+                      type="button"
+                      onClick={handlePrevious}
+                      className="px-6 py-2.5 border-2 border-primary-navy text-primary-navy rounded-full hover:bg-primary-navy hover:text-white transition-colors duration-300"
+                    >
+                      Previous
+                    </button>
+                  )}
+                  {currentStep < steps.length - 1 ? (
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="px-6 py-2.5 bg-primary-green text-white rounded-full hover:bg-green-600 transition-colors duration-300"
+                    >
+                      Continue
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="px-6 py-2.5 bg-primary-green text-white rounded-full hover:bg-green-600 transition-colors duration-300"
+                    >
+                      Submit
+                    </button>
+                  )}
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
