@@ -1,44 +1,49 @@
-import React from 'react';
-import { format, addDays } from 'date-fns';
-import FormSection from '../ui/FormSection';
+'use client';
+
+import { StepProps } from '@/types';
 import FormField from '../ui/FormField';
 import DatePicker from '../ui/DatePicker';
-import { StepProps } from '@/types';
 
-const ProgramEnrollment = ({ data, updateFields }: StepProps) => {
+const ProgramEnrollment: React.FC<StepProps> = ({ data, updateFields }) => {
   return (
-    <FormSection
-      title="Program Selection"
-      description="Choose your preferred program and start date"
-    >
-      <FormField
-        label="Program"
-        id="program"
-        type="select"
-        value={data.program}
-        onChange={(value) => updateFields({ program: value })}
-        placeholder="Select your program"
-        required
-        options={[
-          { value: 'caregiver', label: 'Caregiver Training' },
-          { value: 'nursing', label: 'Nursing Assistant' },
-          { value: 'medical', label: 'Medical Assistant' },
-          { value: 'phlebotomy', label: 'Phlebotomy' }
-        ]}
-        description="Select the program you wish to enroll in"
-      />
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold text-primary-navy dark:text-white">
+        Program Enrollment
+      </h2>
+      
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <FormField
+            label="Program"
+            type="select"
+            id="program"
+            value={data.program}
+            onChange={(value) => updateFields({ program: value })}
+            placeholder="Select a program"
+            required
+            options={[
+              { value: 'caregiver', label: 'Caregiver Training' },
+              { value: 'nursing', label: 'Nursing Assistant' },
+              { value: 'medical', label: 'Medical Assistant' },
+              { value: 'phlebotomy', label: 'Phlebotomy' }
+            ]}
+          />
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Select the program you wish to enroll in
+          </p>
+        </div>
 
-      <DatePicker
-        label="Start Date"
-        id="startDate"
-        value={data.startDate}
-        onChange={(value) => updateFields({ startDate: value })}
-        placeholder="Choose your start date"
-        required
-        description="When would you like to start?"
-        minDate={format(addDays(new Date(), 14), 'yyyy-MM-dd')}
-      />
-    </FormSection>
+        <DatePicker
+          label="Start Date"
+          id="startDate"
+          value={data.startDate}
+          onChange={(value) => updateFields({ startDate: value })}
+          placeholder="Select your preferred start date"
+          required
+          minDate={new Date().toISOString().split('T')[0]}
+        />
+      </div>
+    </div>
   );
 };
 

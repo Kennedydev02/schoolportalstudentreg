@@ -1,61 +1,94 @@
-import React from 'react';
-import { StepProps } from '../../types';
-import FormSection from '../ui/FormSection';
+'use client';
+
+import { StepProps } from '@/types';
 import FormField from '../ui/FormField';
-import DatePicker from '../ui/DatePicker';
-import { format, addDays } from 'date-fns';
 
-const AirportPickup = ({ data, updateFields }: StepProps) => {
+const AirportPickup: React.FC<StepProps> = ({ data, updateFields }) => {
   return (
-    <FormSection
-      title="Airport Pickup"
-      description="Do you need transportation from the airport?"
-    >
-      <FormField
-        label="Need Airport Pickup?"
-        id="needsAirportPickup"
-        type="select"
-        value={data.needsAirportPickup ? 'yes' : 'no'}
-        onChange={(value) => updateFields({ 
-          needsAirportPickup: value === 'yes',
-          arrivalDate: value === 'no' ? '' : data.arrivalDate,
-          arrivalTime: value === 'no' ? '' : data.arrivalTime
-        })}
-        placeholder="Select option"
-        required
-        options={[
-          { value: 'yes', label: 'Yes, I need airport pickup' },
-          { value: 'no', label: 'No, I have my own transportation' }
-        ]}
-        fullWidth
-      />
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold text-primary-navy dark:text-white">
+        Airport Pickup
+      </h2>
+      
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+            Do you need airport pickup?
+          </label>
+          <div className="grid grid-cols-2 gap-4">
+            <div
+              className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                data.needsAirportPickup
+                  ? 'border-primary-green bg-green-50 dark:bg-green-900/20'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-primary-green'
+              }`}
+              onClick={() => updateFields({ needsAirportPickup: true })}
+            >
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="airportPickup"
+                  checked={data.needsAirportPickup}
+                  onChange={() => updateFields({ needsAirportPickup: true })}
+                  className="h-4 w-4 text-primary-green focus:ring-primary-green"
+                />
+                <span className="ml-3 font-medium dark:text-white">Yes</span>
+              </div>
+            </div>
 
-      {data.needsAirportPickup && (
-        <>
-          <DatePicker
-            label="Arrival Date"
-            id="arrivalDate"
-            value={data.arrivalDate}
-            onChange={(value) => updateFields({ arrivalDate: value })}
-            placeholder="Select your arrival date"
-            required
-            description="When will you arrive?"
-            minDate={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
-          />
+            <div
+              className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                !data.needsAirportPickup
+                  ? 'border-primary-green bg-green-50 dark:bg-green-900/20'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-primary-green'
+              }`}
+              onClick={() => updateFields({ needsAirportPickup: false })}
+            >
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="airportPickup"
+                  checked={!data.needsAirportPickup}
+                  onChange={() => updateFields({ needsAirportPickup: false })}
+                  className="h-4 w-4 text-primary-green focus:ring-primary-green"
+                />
+                <span className="ml-3 font-medium dark:text-white">No</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <FormField
-            label="Arrival Time"
-            id="arrivalTime"
-            type="time"
-            value={data.arrivalTime}
-            onChange={(value) => updateFields({ arrivalTime: value })}
-            placeholder="Enter your arrival time"
-            required
-            description="What time will you arrive?"
-          />
-        </>
-      )}
-    </FormSection>
+        {data.needsAirportPickup && (
+          <>
+            <FormField
+              label="Arrival Date"
+              id="arrivalDate"
+              type="date"
+              value={data.arrivalDate}
+              onChange={(value) => updateFields({ arrivalDate: value })}
+              placeholder="Select your arrival date"
+              required
+            />
+
+            <FormField
+              label="Arrival Time"
+              id="arrivalTime"
+              type="time"
+              value={data.arrivalTime}
+              onChange={(value) => updateFields({ arrivalTime: value })}
+              placeholder="Enter your arrival time"
+              required
+            />
+
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-md">
+              <p className="text-sm text-blue-700 dark:text-blue-200">
+                Airport pickup is available for Seattle-Tacoma International Airport (SEA) only.
+              </p>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 
